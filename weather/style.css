@@ -1,0 +1,83 @@
+:root{font-family:Arial,Helvetica,"Microsoft YaHei",sans-serif;color:#002b50;background:#fff;font-size:12px;font-weight:400}
+*{box-sizing:border-box}
+body{margin:0}
+main{max-width:1040px;margin:18px auto;padding:0 20px}
+button,input{font:inherit;font-weight:400}
+button{cursor:pointer;color:#123d61;background:#fff;border:1px solid #cbd6df;border-radius:3px;padding:7px 12px}
+button:hover{background:#f0f6fa}
+button:disabled{cursor:default;opacity:.4}
+button:focus-visible,input:focus-visible{outline:2px solid #e9a029;outline-offset:2px}
+.toolbar{display:flex;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid #dde3e8}
+.toolbar strong{font-size:18px;white-space:nowrap;font-weight:400;margin-right:auto}
+.location-search{display:flex;width:570px;max-width:68%;gap:6px}
+.location-search input{min-width:0;flex:1;padding:9px 12px;border:1px solid #bdccd9;border-radius:4px;font-size:14px;color:#173e60;background:white}
+.location-search input::placeholder{color:#8193a1;font-size:12px}
+#search{background:#176fac;border-color:#176fac;color:white;white-space:nowrap;padding:8px 16px;font-size:13px}
+.unit-switch{display:flex}
+.unit-switch button{padding:8px 10px;border-radius:0;font-size:12px}
+.unit-switch button[aria-pressed=true]{background:#e8f2f9}
+.search-help{font-size:11px;color:#708494;margin:8px 0 10px;line-height:1.6}
+.meta{display:flex;gap:10px;justify-content:space-between;font-size:11px;color:#506d83;margin:10px 0 13px;line-height:1.7}
+.meta>span:first-child{max-width:80%}
+.meta>span:last-child{white-space:nowrap}
+.error{color:#a33030!important}
+.time-toolbar{display:flex;align-items:center;gap:9px;padding:0 0 8px;font-size:12px}
+.time-toolbar button{border:0;font-size:24px;line-height:20px;padding:0 8px;color:#7b8994}
+.time-toolbar output{margin-left:auto;font-size:11px;font-variant-numeric:tabular-nums;color:#17456a}
+.chart-scroll{overflow-x:auto}
+.forecast-chart{min-width:920px;width:100%;padding-bottom:5px}
+.daily-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));margin-left:42px;margin-right:46px;height:151px}
+.day-card{border:1px solid #e0e0e0;border-right:0;padding:0 3px;background:#fff;display:flex;flex-direction:column;align-items:center;font-size:12px;line-height:16px;border-radius:0;color:#002b50}
+.day-card:last-child{border-right:1px solid #e0e0e0}
+.day-card[aria-pressed=true]{background:#fff;box-shadow:inset 0 2px #3292c1}
+.day-card:hover{background:#f4f8fa}
+.day-date{width:calc(100% + 6px);border-bottom:1px solid #e0e0e0;height:20px;line-height:19px;font-size:12px;font-weight:400}
+.day-high{color:#ff003a;margin-top:2px;font-size:12px}
+.day-low{color:#08679c}
+.day-icon{width:58px;height:53px;margin:0}
+.day-desc{font-size:12px;font-weight:400;line-height:17px;min-height:34px;text-align:center}
+.day-rain{font-size:12px;color:#005781;display:flex;align-items:center;gap:6px;margin-top:3px;white-space:nowrap}
+.rain-drop{display:inline-block;width:10px;height:12px;background:#1caeda;border-radius:70% 0 65% 65%;transform:rotate(10deg)}
+.sun-times{font-size:10px;display:flex;justify-content:space-between;color:#ed9b21;width:100%;margin-top:auto;line-height:10px}
+.panel{position:relative}
+.plot{width:100%;height:106px;display:block;touch-action:pan-y;overflow:visible}
+.plot text{font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:400;fill:#002b50;font-variant-numeric:tabular-nums}
+.plot text.series-label{font-size:11px}
+.plot .cursor{stroke:#222;stroke-width:.7;pointer-events:none}
+.legend{display:flex;justify-content:flex-end;align-items:center;gap:20px;padding:4px 46px 7px 42px;height:29px}
+.legend button{border:0;padding:0;border-radius:0;background:transparent;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:18px;white-space:nowrap;color:#002b50;font-weight:400}
+.legend button[aria-pressed=false]{opacity:.35;text-decoration:line-through}
+.legend i{display:inline-block;width:19px;height:10px;margin-right:5px;vertical-align:0}
+.inspect{display:flex;align-items:center;gap:16px;border-top:1px solid #e7ebef;padding-top:10px;margin-top:5px}
+.inspect label{font-size:11px;white-space:nowrap}
+.inspect label span{color:#567188;margin-left:8px}
+.inspect input{flex:1;min-width:80px;accent-color:#3c80ad;height:18px}
+.readout{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;background:#f9fafb;border:1px solid #e7ebef;margin:10px 0;padding:9px 12px;font-size:11px;line-height:1.7;min-height:65px;font-variant-numeric:tabular-nums}
+.readout p{margin:0;min-width:0}
+.readout strong{font-size:11px;display:block;font-weight:400;color:#697e8d}
+.readout span{display:inline-block;max-width:100%;white-space:normal;margin-right:8px}
+.notes{font-size:10px;color:#7b8992;line-height:1.8;margin:8px 0}
+footer{font-size:10px;color:#7b8992;line-height:1.8;border-top:1px solid #e7ebef;margin-top:12px;padding:10px 0}
+footer a{color:#557c97}
+#grid-info{display:block;font-size:10px}
+.candidates{border:1px solid #d2dce4;border-radius:5px;background:#fff;margin:10px 0 15px;box-shadow:0 4px 12px #17395410}
+.candidate-heading{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;background:#f6f9fb;color:#4b667b;font-size:12px}
+.candidate-heading button{border:0;font-size:20px;padding:0 4px}
+.candidates #candidate-list button{display:block;border:0;border-top:1px solid #edf0f3;border-radius:0;width:100%;text-align:left;padding:12px 14px;line-height:1.5}
+.candidates button>span{display:block;font-size:14px}
+.candidates small{display:block;font-size:11px;color:#718693;margin-top:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+[hidden]{display:none!important}
+@media(max-width:700px){main{margin:12px auto;padding:0 12px}
+.toolbar{flex-wrap:wrap;gap:8px}
+.toolbar strong{flex:1}
+.location-search{order:3;width:100%;max-width:100%}
+.meta{flex-direction:column;gap:3px}
+.meta>span:first-child{max-width:100%}
+.time-toolbar{flex-wrap:wrap}
+.time-toolbar output{font-size:10px}
+.readout{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:9px}
+.inspect{flex-wrap:wrap;gap:6px}
+.inspect label{width:100%}
+}
+
