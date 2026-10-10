@@ -13,10 +13,17 @@ const dateLabel=date=>new Intl.DateTimeFormat('en-US',{timeZone:'UTC',weekday:'s
 const windDirection=n=>validNumber(n)?['北','东北','东','东南','南','西南','西','西北'][Math.round(n/45)%8]:'—';
 function status(text,error=false){$('status').textContent=text;$('status').classList.toggle('error',error);}
 function forecastUrl(lat,lon){const url=new URL('https://api.open-meteo.com/v1/forecast');url.search=new URLSearchParams({latitude:String(lat),longitude:String(lon),timezone:'auto',forecast_days:'16',cell_selection:'nearest',hourly:'temperature_2m,apparent_temperature,dew_point_2m,cloud_cover,precipitation_probability,relative_humidity_2m,pressure_msl,rain,showers,wind_speed_10m,wind_direction_10m,is_day',daily:'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunrise,sunset'}).toString();return url;}
+function updateLocationBookmark(lat,lon,place){
+    const url=new URL(location.href);url.searchParams.delete('q');url.searchParams.set('lat',lat);url.searchParams.set('lon',lon);
+    const namedPlace=place.label&&place.kind!=='coordinates'&&!['GPS 坐标','输入坐标'].includes(place.label);
+    if(namedPlace){url.searchParams.set('name',place.label);url.searchParams.set('precision',place.precision);}
+    else{url.searchParams.delete('name');url.searchParams.delete('precision');}
+    document.title=`${namedPlace?place.label:`${lat.toFixed(6)}, ${lon.toFixed(6)}`} · 十天天气预报`;
+    history.replaceState(null,'',url);
+}
 async function load(lat,lon,place={label:'GPS 坐标',precision:'输入坐标'}){if(!validCoordinates(lat,lon)){status('经纬度无效：纬度 −90～90，经度 −180～180。',true);return;}
-  const request=++state.request;status('正在获取预报…');$('search').disabled=true;$('weather').hidden=true;
+  const request=++state.request;updateLocationBookmark(lat,lon,place);status('正在获取预报…');$('search').disabled=true;$('weather').hidden=true;
   try{const key=`${lat},${lon}`;let entry=cache.get(key);if(!entry||Date.now()-entry.at>600000){const r=await fetch(forecastUrl(lat,lon),{signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(r.status===429?'查询频率过高，请稍后重试。':`天气接口暂时不可用（${r.status}）。`);const data=await r.json();if(!data.daily?.time?.length||!data.hourly?.time?.length)throw new Error('天气接口未返回完整数据。');entry={data,at:Date.now()};cache.set(key,entry);}if(request!==state.request)return;state.data=entry.data;state.lat=lat;state.lon=lon;state.start=0;
-    const url=new URL(location.href);url.searchParams.delete('q');url.searchParams.set('lat',lat);url.searchParams.set('lon',lon);history.replaceState(null,'',url);
     $('location-meta').textContent=`${place.label} · ${place.precision} · ${lat.toFixed(6)}, ${lon.toFixed(6)} · ${state.data.timezone}`;
     $('grid-info').textContent=`网格中心 ${number(state.data.latitude,4)}, ${number(state.data.longitude,4)} · 海拔 ${number(state.data.elevation)} m · 获取时间 ${new Intl.DateTimeFormat('zh-CN',{timeZone:state.data.timezone,hour:'2-digit',minute:'2-digit'}).format(entry.at)}`;
     $('weather').hidden=false;render();status('10 天连续逐小时预报');
@@ -85,6 +92,8 @@ $('hour-slider').addEventListener('input',()=>selectHour(Number($('hour-slider')
 function setUnit(unit){state.unit=unit;$('celsius').setAttribute('aria-pressed',String(unit==='C'));$('fahrenheit').setAttribute('aria-pressed',String(unit==='F'));try{localStorage.setItem('weather-unit',unit);}catch{}if(state.data)render(true);}
 $('celsius').addEventListener('click',()=>setUnit('C'));$('fahrenheit').addEventListener('click',()=>setUnit('F'));try{if(localStorage.getItem('weather-unit')==='F')setUnit('F');}catch{}
 const query=new URLSearchParams(location.search),lat=query.has('lat')?Number(query.get('lat')):47.542,lon=query.has('lon')?Number(query.get('lon')):-122.015;
+const bookmarkName=query.get('name')?.trim().slice(0,500),bookmarkPlace=bookmarkName?{label:bookmarkName,precision:query.get('precision')?.slice(0,100)||'收藏地点'}:undefined;
+if(bookmarkName)document.title=`${bookmarkName} · 十天天气预报`;
 $('location-input').value=query.get('q')||`${lat}, ${lon}`;
-if(query.has('q'))searchLocation(query.get('q'));else if(query.get('lat')===''||query.get('lon')==='')status('链接坐标为空，请输入地点。',true);else load(lat,lon);
+if(query.has('q'))searchLocation(query.get('q'));else if(query.get('lat')===''||query.get('lon')==='')status('链接坐标为空，请输入地点。',true);else load(lat,lon,bookmarkPlace);
 new ResizeObserver(()=>{if(state.data&&!$('weather').hidden){const width=document.querySelector('.forecast-chart').getBoundingClientRect().width;if(Math.abs(width-W)>1)render(true);}}).observe(document.querySelector('.forecast-chart'));
