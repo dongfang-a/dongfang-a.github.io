@@ -37,8 +37,10 @@ button:focus-visible,input:focus-visible{outline:2px solid #e9a029;outline-offse
 .day-icon{width:58px;height:53px;margin:0}
 .day-desc{font-size:12px;font-weight:400;line-height:17px;min-height:51px;text-align:center}
 .day-night{font-size:10px;line-height:13px;color:#607488;min-height:13px}
-.model-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-select{font:inherit;color:#123d61;background:white;border:1px solid #cbd6df;padding:6px;border-radius:3px;max-width:100%}
+.model-toolbar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:8px}
+.model-options{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.model-options label{display:inline-flex;gap:5px;align-items:center;white-space:nowrap;cursor:pointer;padding:4px 0}
+.model-options input{margin:0;accent-color:#176fac;cursor:pointer}
 .source-info{font-size:11px;color:#506d83;line-height:1.6;margin:6px 0 12px}
 .comparison{font-size:11px;line-height:1.7;margin-top:10px}
 .comparison-scroll{overflow-x:auto}

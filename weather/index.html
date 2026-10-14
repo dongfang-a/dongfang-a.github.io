@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="GPS 坐标十天天气预报图：温度、露点、体感、云量、降水、湿度、气压及风速。"><title>GPS 十天天气预报图</title><link rel="stylesheet" href="style.css?v=20261013"><script type="module" src="app.js?v=20261013"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="GPS 坐标十天天气预报图：温度、露点、体感、云量、降水、湿度、气压及风速。"><title>GPS 十天天气预报图</title><link rel="stylesheet" href="style.css?v=20261013-radio"><script type="module" src="app.js?v=20261013-radio"></script></head>
 <body><main>
   <form id="location-form" class="toolbar"><strong>十天天气预报</strong><div class="location-search"><label for="location-input" class="sr-only">地址、邮编或坐标</label><input id="location-input" type="search" placeholder="地址、邮编或坐标，例如 98029 / 47.542, -122.015" autocomplete="off" required aria-describedby="search-help"><button id="search" type="submit">查询</button></div><div class="unit-switch" aria-label="温度单位"><button id="celsius" type="button" aria-pressed="true">°C</button><button id="fahrenheit" type="button" aria-pressed="false">°F</button></div></form>
   <p id="search-help" class="search-help">输入地址、城市、ZIP code、十进制坐标或度分秒；也可粘贴含坐标的地图链接。</p>
   <section id="candidates" class="candidates" hidden aria-label="匹配地点"><div class="candidate-heading"><span>请选择匹配的地点</span><button id="close-candidates" aria-label="关闭地点候选">×</button></div><div id="candidate-list"></div></section>
   <div class="meta"><span id="location-meta"></span><span id="status" role="status" aria-live="polite">正在获取预报…</span></div>
-  <div class="model-toolbar"><label for="model">预报模型</label><select id="model"><option value="auto">自动（美国本土优先 NBM）</option><option value="nbm">NOAA NBM · 美国本土</option><option value="gfs">NOAA GFS Seamless</option><option value="ecmwf">ECMWF IFS 0.25°</option></select></div>
+  <div class="model-toolbar"><span id="model-label">预报模型</span><div id="model" class="model-options" role="radiogroup" aria-labelledby="model-label"><label><input type="radio" name="model" value="auto" checked>自动（美国本土优先 NBM）</label><label><input type="radio" name="model" value="nbm">NOAA NBM · 美国本土</label><label><input type="radio" name="model" value="gfs">NOAA GFS Seamless</label><label><input type="radio" name="model" value="ecmwf">ECMWF IFS 0.25°</label></div></div>
   <section id="weather" hidden aria-label="十日天气图表">
     <p id="source-info" class="source-info"></p>
     <div class="time-toolbar"><button id="previous" aria-label="向前一天">‹</button><span id="range-label"></span><button id="next" aria-label="向后一天">›</button><output id="hover-time"></output></div>

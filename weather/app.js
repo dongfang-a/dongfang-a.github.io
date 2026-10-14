@@ -95,7 +95,7 @@ $('panels').addEventListener('click',e=>{const b=e.target.closest('[data-toggle]
 function inspectPointer(e){const svg=e.target.closest('.plot');if(!svg)return;const rect=svg.getBoundingClientRect(),relative=(e.clientX-rect.left)*W/rect.width;selectHour(Math.round((relative-L)/PW*state.count-.5));}
 $('panels').addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||e.buttons)inspectPointer(e);});$('panels').addEventListener('pointerdown',inspectPointer);
 $('hour-slider').addEventListener('input',()=>selectHour(Number($('hour-slider').value)));
-$('model').addEventListener('change',()=>{state.model=$('model').value;load(state.lat,state.lon,state.place||undefined);});
+$('model').addEventListener('change',e=>{if(!e.target.matches('input[name="model"]')||!e.target.checked)return;state.model=e.target.value;load(state.lat,state.lon,state.place||undefined);});
 $('compare').addEventListener('click',async()=>{
   const request=++state.comparisonRequest;$('compare').disabled=true;$('comparison').hidden=false;$('comparison').textContent='正在获取各模型及 NWS 预报…';
   const result=await fetchComparison(state.lat,state.lon);if(request!==state.comparisonRequest)return;state.comparison=result;$('compare').disabled=false;renderComparison();
@@ -117,7 +117,7 @@ function renderComparison(){
 function setUnit(unit){state.unit=unit;$('celsius').setAttribute('aria-pressed',String(unit==='C'));$('fahrenheit').setAttribute('aria-pressed',String(unit==='F'));try{localStorage.setItem('weather-unit',unit);}catch{}if(state.data)render(true);if(state.comparison)renderComparison();}
 $('celsius').addEventListener('click',()=>setUnit('C'));$('fahrenheit').addEventListener('click',()=>setUnit('F'));try{if(localStorage.getItem('weather-unit')==='F')setUnit('F');}catch{}
 const query=new URLSearchParams(location.search),lat=query.has('lat')?Number(query.get('lat')):47.542,lon=query.has('lon')?Number(query.get('lon')):-122.015;
-state.model=['auto','nbm','gfs','ecmwf'].includes(query.get('model'))?query.get('model'):'auto';$('model').value=state.model;
+state.model=['auto','nbm','gfs','ecmwf'].includes(query.get('model'))?query.get('model'):'auto';document.querySelector(`input[name="model"][value="${state.model}"]`).checked=true;
 const bookmarkName=query.get('name')?.trim().slice(0,500),bookmarkPlace=bookmarkName?{label:bookmarkName,precision:query.get('precision')?.slice(0,100)||'收藏地点'}:undefined;
 if(bookmarkName)document.title=`${bookmarkName} · 十天天气预报`;
 $('location-input').value=query.get('q')||`${lat}, ${lon}`;
