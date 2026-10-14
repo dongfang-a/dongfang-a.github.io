@@ -22,3 +22,23 @@ export function axisRange(values,base=false){
   const min=base?0:Math.floor(low/step)*step,max=Math.max(min+step,Math.ceil(high/step)*step);
   return {min,max,step};
 }
+export function precipitationRanges(hourly,accumulated){return {left:axisRange(hourly,true),right:axisRange(accumulated,true)};}
+const wetCode=c=>validNumber(c)&&c>=51;
+function summarizeHours(h,indices){
+  const codes=indices.map(i=>h.weather_code?.[i]).filter(validNumber);
+  if(!codes.length)return {kind:'unknown',text:'No data'};
+  const severe=[95,96,97,99,56,57,66,67,75,86,73,85,71,77,82,65,81,63,80,61,55,53,51].find(c=>codes.includes(c));
+  if(severe!==undefined){const [kind]=condition(severe);return {kind,text:kind==='storm'?'Thunderstorms':kind==='snow'?'Snow':[56,57,66,67].includes(severe)?'Freezing Rain':severe<60?'Drizzle':severe>=80?'Showers':'Rain'};}
+  if(codes.some(c=>c===45||c===48))return {kind:'fog',text:'Fog'};
+  const clouds=indices.map(i=>h.cloud_cover?.[i]).filter(validNumber),mean=clouds.length?clouds.reduce((a,b)=>a+b,0)/clouds.length:codes.reduce((a,c)=>a+[0,20,60,100][c],0)/codes.length;
+  return mean<=20?{kind:'sun',text:'Sunny'}:mean<=50?{kind:'partly',text:'Mostly Sunny'}:mean<=80?{kind:'partly',text:'Partly Cloudy'}:{kind:'cloud',text:'Cloudy'};
+}
+export function daySummary(data,index){
+  const date=data.daily.time[index],h=data.hourly,indices=h.time.reduce((a,t,i)=>{if(t.startsWith(date))a.push(i);return a;},[]);
+  const day=indices.filter(i=>h.is_day?.[i]===1),night=indices.filter(i=>h.is_day?.[i]===0),base=summarizeHours(h,day.length?day:night);
+  const am=summarizeHours(h,day.filter(i=>Number(h.time[i].slice(11,13))<12)),pm=summarizeHours(h,day.filter(i=>Number(h.time[i].slice(11,13))>=12));
+  let text=base.text;
+  if(am.kind!=='unknown'&&pm.kind!=='unknown'&&am.text!==pm.text)text=`AM ${am.text} / PM ${pm.text}`;
+  const nightWet=night.some(i=>wetCode(h.weather_code?.[i])),dayWet=day.some(i=>wetCode(h.weather_code?.[i]));
+  return {...base,dark:!day.length,text:day.length?text:`Night: ${text}`,night:day.length&&nightWet&&!dayWet?`Night: ${summarizeHours(h,night).text}`:'',worst:condition(data.daily.weather_code?.[index])[1]};
+}
