@@ -1,4 +1,20 @@
-# GPS Weather Forecast
+# dongfang-a · 项目导航
+
+Homepage: https://dongfang-a.github.io/
+
+| Project | Public page |
+| --- | --- |
+| 十天天气预报 | https://dongfang-a.github.io/weather/ |
+| Sunset Highway 历史地图 | https://dongfang-a.github.io/sunset-highway-map/ |
+| America’s Byways 风景公路 KML | https://dongfang-a.github.io/americas_byways/ |
+| Space Needle 三维建筑 | https://dongfang-a.github.io/space-needle/ |
+| 东方明珠三维漫游 | https://dongfang-a.github.io/oriental-pearl/ |
+
+The root `index.html` is a lightweight project directory, styled by `home.css`. Project cards use ordinary links and work without JavaScript. Add future public pages as cards in `index.html` and update the project count.
+
+When publishing weather updates, first pull the latest `main` and sync only into `weather/`. Preserve the root homepage and its assets.
+
+## GPS Weather Forecast
 
 Live website: https://dongfang-a.github.io/weather/
 
