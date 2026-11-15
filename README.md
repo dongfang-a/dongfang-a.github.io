@@ -6,7 +6,7 @@ Homepage: https://dongfang-a.github.io/
 | --- | --- |
 | 十天天气预报 | https://dongfang-a.github.io/weather/ |
 | Sunset Highway 历史地图 | https://dongfang-a.github.io/sunset-highway-map/ |
-| America’s Byways 风景公路 KML | https://dongfang-a.github.io/americas_byways/ |
+| America’s Byways 风景公路地图 | https://dongfang-a.github.io/americas_byways/ |
 | Space Needle 三维建筑 | https://dongfang-a.github.io/space-needle/ |
 | 东方明珠三维漫游 | https://dongfang-a.github.io/oriental-pearl/ |
 
