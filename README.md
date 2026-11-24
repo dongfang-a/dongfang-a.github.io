@@ -5,6 +5,7 @@ Homepage: https://dongfang-a.github.io/
 | Project | Public page |
 | --- | --- |
 | 十天天气预报 | https://dongfang-a.github.io/weather/ |
+| MushroomMap 野外采菇地图 | https://dongfang-a.github.io/mushroom-map/ |
 | Sunset Highway 历史地图 | https://dongfang-a.github.io/sunset-highway-map/ |
 | America’s Byways 风景公路地图 | https://dongfang-a.github.io/americas_byways/ |
 | Space Needle 三维建筑 | https://dongfang-a.github.io/space-needle/ |
