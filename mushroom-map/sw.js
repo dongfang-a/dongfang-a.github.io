@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mushroom-map-pwa-v4';
+const CACHE_NAME = 'mushroom-map-pwa-v5';
 const SHELL_URLS = [
   './',
   './index.html',
